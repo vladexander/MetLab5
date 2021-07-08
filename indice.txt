@@ -1,0 +1,14 @@
+https://www.idsagency.co/hubfs/ex/todos.txt
+
+https://f.hubspotusercontent20.net/hubfs/2661178/ex/todos.txt
+
+https://www.idsagency.co/hubfs/ex/Heun.txt
+https://www.idsagency.co/hubfs/ex/guia5.txt
+https://f.hubspotusercontent20.net/hubfs/2661178/ex/guia5.txt
+https://www.idsagency.co/hubfs/ex/EulerMod.txt
+https://www.idsagency.co/hubfs/ex/Euler.txt
+https://www.idsagency.co/hubfs/ex/Taylor.txt
+https://www.idsagency.co/hubfs/ex/RK4.txt
+https://www.idsagency.co/hubfs/ex/PuntoMedio.txt
+https://www.idsagency.co/hubfs/ex/P8_RKF5.m
+https://www.idsagency.co/hubfs/ex/P7_RKF4.m

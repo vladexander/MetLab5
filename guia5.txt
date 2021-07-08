@@ -1,0 +1,100 @@
+---Crear archivo M
+function dy = g(t,y)
+dy=2*sin(2*t)-2*y-1;
+
+--Corrida
+[t,y]=ode23(@g,[a:h:b],alpha) %alpha es 'y(a)=alpha', la respuesta es el vector y
+
+---Para exacta FormulaDy
+%Formula Dy puede ser 'Dy=t^2+1' o de la manera original 'Dy - t^2 = 1' si uno da error, probar el otro
+exacta=dsolve(FormulaDy,'y(a)=alpha')
+Y=double(subs(exacta,t))
+
+---Si pide error
+error = norm(Y-y,inf)
+
+
+---Si piden
+Resuelva el siguiente sistema de ecuaciones diferenciales:
+3x’ + 5x + y’ – 2y = t
+3x’ + 6x + y’ + y = e^t
+
+encontrar x' con y' 
+x'=-17x/8+(e^t+t+1)/8
+y'=-17x/8+(8e^t-6t-3)/8
+
+quedando matrices
+X'=| -17/8   0   |*W+| (e^t+t+1)/8   |
+   |  0    -17/8 |   | (8e^t-6t-3)/8 |
+
+--archivo M
+function p=fsis7(t,w)
+p=zeros(size(w));
+p=[-17/8 0;0 -17/8]*w+[(1+t+exp(t))/8;(-3-6*t+8*exp(t))/8];
+
+--Para exacto
+[X Y]=dsolve('Dx+17/8*x=(1+t+exp(t))/8','Dy+17/8*y=(-3-6*t+8*exp(t))/8','x(0)=1','y(0)=0')
+
+exacta_x=double(subs(X,t));exacta_y=double(subs(Y,t));
+exacta =[exacta_x exacta_y]
+
+--Para error
+error_x=norm(exacta_x-xy(:,1));error_y=norm(exacta_y-xy(:,2));
+error=[error_x error_y]
+
+-----Si piden
+x’= -4x - 2y + cos(t) + 4sen(t)
+y’= 3x + y - 3sen(t)
+
+x(0) = 0 , y(0) = -1
+
+
+--Archivo M
+function P=prueba1(t,xy)
+P=zeros(2,1);
+P(1)=-4*xy(1)-2*xy(2)+cos(t)+4*sin(t);
+P(2)=3*xy(1)+xy(2)-3*sin(t);
+
+--Corrida
+[t xy]=ode45(@prueba1,[a,h,b],[0;-1])
+
+--Exacta
+[X Y]=dsolve('Dx=-4*xy(1)-2*xy(2)+cos(t)+4*sin(t)','Dy=3*xy(1)+xy(2)-3*sin(t)','x(0)=0','y(0)=-1');
+
+exacta=[double(subs(X,t)) double(subs(Y,t))]
+
+error=norm(Exacta(:,1)-xy(:,1),inf) norm(Exacta(:,2)-xy(:,2),inf)]
+
+%en comando t=[1:1/100:27/25];
+%[t yuv]=ode45(@g9c,t,[0;1;3])
+
+
+-----
+Resuelva y’’’(t) + 2y’’(t) - y’(t) - 2y(t) = exp(t) , sujeta a las condiciones iniciales:
+y(0) = 1 , y’(0) = 2 , y’’(0) = 0, en el intervalo 0 < t < 0.5 , considere h = 0.05
+
+--Archivo M
+function P=g9c(t,y)
+P=zeros(3,1);
+P(1)=y(2);
+P(2)=y(3);
+P(3)=2*y(1)+y(2)-2*y(3)+exp(t)
+
+--Analisis
+y(1)=y
+y(2)=y'
+y(3)=y''
+
+dejar y'''=2y+y'-2y'''+e^t
+
+--Corrida
+t=[1:1/100:27/25];
+%[t yuv]=ode45(@g9c,t,[0;1;3])
+
+--exacta
+exacta_y=dsolve('D3y+2*D2y-Dy*y=exp(t)','y(0)=1','Dy(0)=2','D2y(0)=0')
+
+Y=subs(exacta_y,t)
+
+--error
+error_y=norm(Y-yuv(:,1),inf)

@@ -1,0 +1,896 @@
+====EULER===
+
+%M�TODO DE EULER
+
+% - Introduzca la ecuaci�n diferencial        : 'Dy=cos(2*x)+sin(3*x)'
+% - Introduzca la condici�n y(a)=b            : 'y(0)=1'
+% - Introduzca la funci�n de trabajo          : cos(2*x)+sin(3*x)
+% - Introduzca la condici�n inicial           : 1
+% - Introduzca el valor de a                  : 0
+% - Introduzca el valor de b                  : 1
+% - Introduzca el tama�o de paso h            : 1/4
+
+fprintf('\n');
+clear all
+clc
+fprintf('                                     ---------------\n')
+fprintf('                                     M�TODO DE EULER\n')
+fprintf('                                     ---------------\n')
+fprintf('\n');
+syms x y t
+d=input(' - Introduzca la ecuaci�n diferencial        : ');
+n=input(' - Introduzca la condici�n y(a)=b            : ');
+f1=input(' - Introduzca la funci�n de trabajo          : ');
+ya=input(' - Introduzca la condici�n inicial           : ');
+fprintf('Introduzca el intervalo de evaluacion.\n');
+a=input(' - Desde                                     : ');
+b=input(' - Hasta                                     : ');
+h=input(' - Introduzca el tama�o de paso h            : ');
+
+fprintf('\n\n');
+
+fprintf(' - La soluci�n de la ecuaci�n diferencial es : \n\n\n');
+
+m = dsolve(d,n,'t');
+pretty(m)
+
+fprintf('\n\n\n');
+
+%Condiciones para el funcionamiento de los lazos FOR
+f=f1;
+w(1)=ya;
+i=0;
+t(1)=a;
+v(1)=a;
+d=0;
+c=0;
+g=0;
+
+%Este for obtiene y guarda todos los valores de t
+%Tambi�n se utiliza para evaluar la ecuaci�n diferencial
+for p=a:h:b
+   d=1+d;
+   t(d)=p;
+   v(d)=subs(m,p);
+end
+
+%Este for se usa para contabilizar las iteraciones
+for s=c:1:(d-1)
+   g=1+g;
+   k(g)=(g-1);
+end
+
+k3=k(end);
+
+%Este for obtiene los valores aproximados de soluci�n
+
+%Tambi�n imprime en pantalla la f�rmula de la ecuaci�n para
+%cada iteraci�n
+
+fprintf('           ------------------------------------------------');
+fprintf('\n');
+fprintf('                      F�RMULAS DE CADA ITERACI�N');
+fprintf('\n');
+fprintf('           ------------------------------------------------');
+fprintf('\n\n');
+fprintf('            - w0 = %10.15f ',ya);
+fprintf('\n');
+
+for j=a:h:(b-h)
+   i=1+i;
+   w(i+1)=w(i)+(h*(subs(f,{x,y},{t(i),w(i)})));   
+   fprintf('\n');
+   fprintf('            - w%1.0f = w%1.0f + h f(t%1.0f,w%1.0f)',i,i-1,i-1,i-1);
+   fprintf('\n');
+   fprintf('            - w%1.0f = w%1.0f + %1.5f f(%10.15f,%10.15f)',i,i-1,h,t(i),w(i));
+   fprintf('\n');
+end
+
+fprintf('\n');
+fprintf('           ------------------------------------------------');
+fprintf('\n');
+
+fprintf('\n\n');
+
+fprintf('      i               ti                 wi+1                   y(t)');   
+
+fprintf('\n\n');
+
+for k1=0:k3
+   k2=k1+1;
+   fprintf('\n');
+   fprintf('      %1.0f        %10.15f        %10.15f         %10.15f',k(k2),t(k2),w(k2),v(k2));
+   fprintf('\n');                                      
+end
+
+fprintf('\n');
+
+
+
+
+   ===EULER MOD===
+
+   
+% - Introduzca la ecuaci�n diferencial        : 'Dy=y-(x^2)+1'
+% - Introduzca la condici�n y(a)=b            : 'y(0)=0.5'
+% - Introduzca la funci�n de trabajo          : y-(x^2)+1
+% - Introduzca la condici�n inicial           : 0.5
+% - Introduzca el valor de a                  : 0
+% - Introduzca el valor de b                  : 1
+% - Introduzca el tama�o de paso h            : 0.1
+ 
+clear all
+clc
+disp('---------------------------------------------------------------------------');
+disp('M�todo modificado de euler');
+disp('---------------------------------------------------------------------------');
+fprintf('\n')
+
+syms x y
+d=input(' - Ingrese la ecuaci�n diferencial    : ');
+n=input(' - Ingrese la condici�n y(a)=b        : ');
+f1=input(' - Ingrese la funci�n de trabajo      : ');
+ya=input(' - Ingrese la condicion inicial       : ');
+a=input(' - Ingrese el valor de a	            : ');
+b=input(' - Ingrese el valor de b	            : ');
+h=input(' - Ingrese el valor del paso h        : ');
+fprintf('\n');
+
+fprintf(' - La soluci�n de la ecuaci�n diferencial es : \n\n\n');
+m = dsolve(d,n,'x');
+pretty(m);
+fprintf('\n');   
+%Condiciones para el funcionamiento de los lazos FOR
+f=f1;
+w(1)=ya;
+i=0;
+t(1)=a;
+v(1)=a;
+d=0;
+c=0;
+g=0;
+%Este for obtiene y guarda todos los valores de t
+%Tambi�n se utiliza para evaluar la ecuaci�n diferencial
+for p=a:h:b
+   d=1+d;
+   t(d)=p;
+   v(d)=subs(m,p);
+end
+%Este for se usa para contabilizar las iteraciones
+for s=c:1:(d-1)
+   g=1+g;
+   k(g)=(g-1);
+end
+k3=k(end);
+%Este for obtiene los valores aproximados de soluci�n
+
+disp('---------------------------------------------------------------------------');
+disp('Formulas de cada iteracion');
+disp('---------------------------------------------------------------------------');
+fprintf('\n')
+fprintf('- w0 = %1.15f ',ya);
+fprintf('\n');
+for j=a:h:(b-h)
+   i=1+i;
+   w(i+1)=w(i)+((h/2)*(subs(f,{x,y},{t(i),w(i)})))+((h/2)*(subs(f,{x,y},{(t(i)+h),(w(i)+(h*(subs(f,{x,y},{t(i),w(i)}))))})));  
+ fprintf('\n');
+ fprintf('- w%1.0f = w%1.0f + h/2 f(t%1.0f,w%1.0f) + h/2 f(t%1.0f + h,w%1.0f + h f(t%1.0f,w%1.0f))',i,i-1,i-1,i-1,i-1,i-1,i-1,i-1);
+  fprintf('\n');
+fprintf('- w%1.0f = w%1.0f + %1.5f f(%1.15f,w%1.0f) + %1.15f f(%1.9f + %1.15f,w%1.0f + %1.15f f(%1.15f,w%1.0f))',i,i-1,h/2,t(i),i-1,h/2,t(i),h,i-1,h,t(i),i-1);
+fprintf('\n');
+end
+fprintf('\n');
+fprintf('--------------------------------------------------------------------------');
+fprintf('\n');
+%Presentaci�n de los datos 
+fprintf('\n');
+fprintf('              i             ti               wi+1                 y(t)');   
+fprintf('\n');
+for k1=0:k3
+   k2=k1+1;
+   fprintf('\n');
+   fprintf('              %1.0f        %10.15f        %10.15f         %10.15f',k(k2),t(k2),w(k2),v(k2));
+   fprintf('\n');                                      
+end
+fprintf('\n');   
+
+
+
+   ===HEUN===
+%M�TODO DE HEUN
+
+% - Introduzca la ecuaci�n diferencial        : 'Dy=y-(x^2)+1'
+% - Introduzca la condici�n y(a)=b            : 'y(0)=0.5'
+% - Introduzca la funci�n de trabajo          : y-(x^2)+1
+% - Introduzca la condici�n inicial           : 0.5
+% - Introduzca el valor de a                  : 0
+% - Introduzca el valor de b                  : 1
+% - Introduzca el tama�o de paso h            : 0.1
+
+fprintf('\n');
+
+fprintf('                                     --------------\n')
+fprintf('                                     M�TODO DE HEUN\n')
+fprintf('                                     --------------\n')
+fprintf('\n');
+syms x y
+d=input(' - Introduzca la ecuaci�n diferencial        : ');
+n=input(' - Introduzca la condici�n y(a)=b            : ');
+f1=input(' - Introduzca la funci�n de trabajo          : ');
+ya=input(' - Introduzca la condici�n inicial           : ');
+a=input(' - Introduzca el valor de a                  : ');
+b=input(' - Introduzca el valor de b                  : ');
+h=input(' - Introduzca el tama�o de paso h            : ');
+
+fprintf('\n\n');
+
+fprintf(' - La soluci�n de la ecuaci�n diferencial es : \n\n\n');
+
+m = dsolve(d,n,'x');
+pretty(m);
+
+fprintf('\n\n\n');
+
+%Condiciones para el funcionamiento de los lazos FOR
+f=f1;
+w(1)=ya;
+i=0;
+t(1)=a;
+v(1)=a;
+d=0;
+c=0;
+g=0;
+n=(b-a)/h;
+
+%Este for obtiene y guarda todos los valores de t
+%Tambi�n se utiliza para evaluar la ecuaci�n diferencial
+for p=a:h:b
+   d=1+d;
+   t(d)=p;
+   v(d)=subs(m,p);
+end
+
+%Este for se usa para contabilizar las iteraciones
+for s=c:1:(d-1)
+   g=1+g;
+   k(g)=(g-1);
+end
+
+k3=k(end);
+   
+%Este for obtiene los valores aproximados de soluci�n
+fprintf('-------------------------------------------------------------------------------------------------------');
+fprintf('\n');
+fprintf('                                      F�RMULAS DE CADA ITERACI�N');
+fprintf('\n');
+fprintf('-------------------------------------------------------------------------------------------------------');
+fprintf('\n\n');
+fprintf('- w0 = %1.5f ',ya);
+fprintf('\n');
+
+for j=a:h:(b-h)
+   i=1+i;
+   w(i+1)=w(i)+((h/4)*(subs(f,{x,y},{t(i),w(i)})))+(((3/4)*h)*(subs(f,{x,y},{(t(i)+((2/3)*h)),(w(i)+(((2/3)*h)*(subs(f,{x,y},{t(i),w(i)}))))})));
+   fprintf('\n');
+   fprintf('- w%1.0f = w%1.0f + h/4 f(t%1.0f,w%1.0f) + 3/4 h f(t%1.0f + 2/3 h,w%1.0f + 2/3 h f(t%1.0f,w%1.0f))',i,i-1,i-1,i-1,i-1,i-1,i-1,i-1);
+   fprintf('\n');
+   fprintf('- w%1.0f = w%1.0f + %1.5f f(%1.15f,w%1.0f) + %1.5f f(%1.15f + %1.5f,w%1.0f + %1.5f f(%1.15f,w%1.0f))',i,i-1,h/4,t(i),i-1,(3/4)*h,t(i),(2/3)*h,i-1,(2/3)*h,t(i),i-1);
+   fprintf('\n');
+end
+
+fprintf('\n');
+fprintf('-------------------------------------------------------------------------------------------------------');
+fprintf('\n');
+
+%Presentaci�n de los datos 
+fprintf('\n\n');
+
+fprintf('              i             ti                 wi                 y(t)');   
+fprintf('\n\n');
+
+for k1=0:n
+   k2=k1+1;
+   fprintf('\n');
+   fprintf('              %1.0f        %10.15f        %10.15f         %10.15f',k(k2),t(k2),w(k2),v(k2));
+   fprintf('\n');                                      
+end
+
+fprintf('\n');   
+
+   
+
+
+
+
+   ===RK4===
+
+%M�TODO DE RUNGE-KUTTA DE ORDEN CUATRO
+
+%EN TERMINOS DE T Y
+
+% - Introduzca la ecuaci�n diferencial        : 'Dy=y-(t^2)+1'
+% - Introduzca la condici�n y(a)=b            : 'y(0)=0.5'
+% - Introduzca la funci�n de trabajo          : y-(t^2)+1
+% - Introduzca la condici�n inicial           : 0.5
+% - Introduzca el valor de a                  : 0
+% - Introduzca el valor de b                  : 1
+% - Introduzca el tama�o de paso h            : 0.1
+
+clc
+clear all
+disp('---------------------------------------------------------------------------');
+disp('M�todo de RUNGE-KUTTA de orden 4');
+disp('---------------------------------------------------------------------------');
+fprintf('\n')
+syms t y 
+
+d=input(' - Ingrese la ecuaci�n diferencial en (t,y): ');
+n=input(' - Ingrese la condici�n y(a)=b: ');
+f1=input(' - Ingrese la funci�n de trabajo: ');
+ya=input(' - Ingrese el valor de la condicion: ');
+a=input(' - Ingrese el valor de a: ');
+b=input(' - Ingrese el valor de b: ');
+h=input(' - Ingrese el valor h: ');
+
+fprintf('\n');
+fprintf(' - La soluci�n de la ecuaci�n diferencial es : \n');
+m = dsolve(d,n,'t');
+pretty(m);
+fprintf('\n');
+f=f1;
+w(1)=ya;
+ti=a;
+n=(b-a)/h;
+q(1)=a;
+v(1)=a;
+d=0;
+c=0;
+g=0;
+e=1;
+ disp('---------------------------------------------------------------------------');
+disp('Formulas de cada iteracion');
+disp('---------------------------------------------------------------------------');
+fprintf('\n') 
+fprintf('- w0 = %1.8f ',ya);
+fprintf('\n\n');
+for i=0:(n)
+
+   fprintf('- Iteraci�n: %1.0f\n',e);  
+   k1=h*subs(f,{t,y},{ti,w(i+1)});
+   fprintf('- K1 = h * f(t%1.0f,w%1.0f)',i,i);
+   fprintf('\n');
+   fprintf('- K1 = %1.9f * f(%1.9f,w%1.0f)',h,ti,i);
+   fprintf('\n');
+   fprintf('- K1 = %2.8f',double(k1))
+   fprintf('\n\n');
+   k2=h*subs(f,{t,y},{(ti+(h/2)),(w(i+1)+(k1/2))});
+   fprintf('- K2 = h * f(t%1.0f + h/2 , w%1.0f + K1/2)',i,i);
+   fprintf('\n');
+   %fprintf('- K2 = %1.9f * f(%1.9f + %1.9f , w%1.0f + %1.9f)',h,ti,h/2,i,(k1)/2);
+   fprintf('\n');
+   fprintf('- K2 = %2.8f',double(k2))
+   fprintf('\n\n');
+   k3=h*subs(f,{t,y},{(ti+(h/2)),(w(i+1)+(k2/2))});
+   fprintf('- K3 = h * f(t%1.0f + h/2 , w%1.0f + K2/2)',i,i);
+   fprintf('\n');
+  %fprintf('- K3 = %1.9f * f(%1.9f + %1.9f , w%1.0f + %1.9f)',h,ti,h/2,i,(k2)/2);
+   fprintf('\n');
+   fprintf('- K3 = %2.8f',double(k3))
+   fprintf('\n\n');
+   k4=h*subs(f,{t,y},{(ti+h),(w(i+1)+k3)});
+   fprintf('- K4 = h * f(t%1.0f + h , w%1.0f + K3)',i,i);
+   fprintf('\n');
+  % fprintf('- K4 = %1.9f * f(%1.9f + %1.9f , w%1.0f + %1.9f)',h,ti,h,i,k3);
+   fprintf('\n');
+   fprintf('- K4 = %2.8f',double(k4))
+   fprintf('\n\n');
+   w(i+2)=w(i+1)+((1/6)*(k1+(2*k2)+(2*k3)+k4));
+   fprintf('- w%1.0f = w%1.0f + (1/6)*(K1+2K2+2K3+K4)',i+1,i)
+   fprintf('\n');
+   fprintf('- w%1.0f = w%1.0f + (1/6)*(%1.9f+2*%1.9f+2*%1.9f+%1.9f)',i+1,i,double(k1),double(k2),double(k3),double(k4))
+   fprintf('\n');
+   fprintf('- w%1.0f = %2.8f',i+1,double(w(i+2)))
+   fprintf('\n\n');
+   ti=ti+h;
+   e=e+1;
+end
+fprintf('\n\n');
+%Este for obtiene y guarda todos los valores de t
+%Tambi�n se utiliza para evaluar la ecuaci�n diferencial
+for p=a:h:b
+   d=1+d;
+   q(d)=p;
+   v(d)=subs(m,p);
+end
+%Este for se usa para contabilizar las iteraciones
+for s=c:1:(d-1)
+   g=1+g;
+   k(g)=(g-1);
+end
+k3=k(end);
+%Presentaci�n de los datos 
+fprintf('              i             ti                wi+1                y(t)                Error');   
+fprintf('\n');
+for k1=0:k3
+   k2=k1+1;
+   fprintf('\n');
+   fprintf('              %1.0f        %10.15f        %10.15f         %10.15f         %10.15f',k(k2),q(k2),w(k2),v(k2),(w(k2)-v(k2)));
+   fprintf('\n');                                      
+end
+fprintf('\n');  
+
+
+   ===PUNTOMEDIO===
+
+%M�TODO DEL PUNTO MEDIO
+
+
+% - Introduzca la ecuaci�n diferencial        : 'Dy=y-(x^2)+1'
+% - Introduzca la condici�n y(a)=b            : 'y(0)=0.5'
+% - Introduzca la funci�n de trabajo          : y-(x^2)+1
+% - Introduzca la condici�n inicial           : 0.5
+% - Introduzca el valor de a                  : 0
+% - Introduzca el valor de b                  : 1
+% - Introduzca el tama�o de paso h            : 0.1
+
+fprintf('\n');
+clear all
+clc
+fprintf('                                  ----------------------\n')
+fprintf('                                  M�TODO DEL PUNTO MEDIO\n')
+fprintf('                                  ----------------------\n')
+fprintf('\n');
+syms x y
+d=input(' - Introduzca la ecuaci�n diferencial        : ');
+n=input(' - Introduzca la condici�n y(a)=b            : ');
+f1=input(' - Introduzca la funci�n de trabajo          : ');
+ya=input(' - Introduzca la condici�n inicial           : ');
+a=input(' - Introduzca el valor de a                  : ');
+b=input(' - Introduzca el valor de b                  : ');
+h=input(' - Introduzca el tama�o de paso h            : ');
+
+fprintf('\n\n');
+
+fprintf(' - La soluci�n de la ecuaci�n diferencial es : \n\n\n');
+
+m = dsolve(d,n,'x');
+pretty(m);
+
+fprintf('\n\n\n');
+
+%Condiciones para el funcionamiento de los lazos FOR
+f=f1;
+w(1)=ya;
+i=0;
+t(1)=a;
+v(1)=a;
+d=0;
+c=0;
+g=0;
+
+%Este for obtiene y guarda todos los valores de t
+%Tambi�n se utiliza para evaluar la ecuaci�n diferencial
+for p=a:h:b
+   d=1+d;
+   t(d)=p;
+   v(d)=subs(m,p);
+end
+
+%Este for se usa para contabilizar las iteraciones
+for s=c:1:(d-1)
+   g=1+g;
+   k(g)=(g-1);
+end
+
+k3=k(end);
+   
+%Este for obtiene los valores aproximados de soluci�n
+fprintf('      ----------------------------------------------------------------------------');
+fprintf('\n');
+fprintf('                               F�RMULAS DE CADA ITERACI�N');
+fprintf('\n');
+fprintf('      ----------------------------------------------------------------------------');
+fprintf('\n\n');
+fprintf('       - w0 = %1.5f ',ya);
+fprintf('\n');
+
+for j=a:h:(b-h)
+   i=1+i;
+   w(i+1)=w(i)+(h*(subs(f,{x,y},{(t(i)+h/2),w(i)+((h/2)*(((subs(f,{x,y},{t(i),w(i)})))))})));   
+   fprintf('\n');
+   fprintf('       - w%1.0f = w%1.0f + h f(t%1.0f + h/2,w%1.0f + h/2 f(t%1.0f,w%1.0f)',i,i-1,i-1,i-1,i-1,i-1);
+   fprintf('\n');
+   fprintf('       - w%1.0f = w%1.0f + %1.15f f(%1.15f + %1.15f,w%1.0f + %1.15f f(%1.15f,w%1.0f)',i,i-1,h,t(i),(h/2),i-1,(h/2),t(i),i-1);
+   fprintf('\n');
+end
+
+fprintf('\n');
+fprintf('      ----------------------------------------------------------------------------');
+fprintf('\n');
+
+%Presentaci�n de los datos 
+
+fprintf('\n\n');
+
+fprintf('              i             ti                 wi                 y(t)');   
+
+fprintf('\n\n');
+
+for k1=0:k3
+   k2=k1+1;
+   fprintf('\n');
+   fprintf('              %1.0f        %10.15f        %10.15f         %10.15f',k(k2),t(k2),w(k2),v(k2));
+   fprintf('\n');                                      
+end
+
+fprintf('\n');   
+
+
+
+
+
+   ===TAYLOR===
+
+
+   %M�TODO DE TAYLOR DE ORDEN SUPERIOR
+%OJO ESTA EN FUNCION DE Y y X
+
+%- Indique el orden a utilizar               : 4
+% - Introduzca la ecuaci�n diferencial        : 'Dy=y-(x^2)+1'
+% - Introduzca la condici�n y(a)=b            : 'y(0)=0.5'
+% - Se pidi� aproximaci�n de valor 1=(Si)     : 1
+% - Introduzca el valor a aproximar           : 0.75
+
+% - Funci�n: 1
+
+% - Introduzca la funci�n de trabajo          : y-(x^2)+1 Ecc Original
+
+% - Funci�n: 2
+
+% - Introduzca la funci�n de trabajo          : y-(x^2)-(2*x)+1 Diff
+% ANTERIOR
+
+% - Funci�n: 3
+
+% - Introduzca la funci�n de trabajo          : y-(x^2)-(2*x)-1
+
+% - Funci�n: 4
+
+% - Introduzca la funci�n de trabajo          : y-(x^2)-(2*x)-1
+
+% - Introduzca la condici�n inicial           : 0.5
+% - Introduzca el valor de a                  : 0
+% - Introduzca el valor de b                  : 1
+% - Introduzca el tama�o de paso h            : 0.1
+
+
+
+clear all
+
+fprintf('\n');
+
+fprintf('                            ----------------------------------\n')
+fprintf('                            M�TODO DE TAYLOR DE ORDEN SUPERIOR\n')
+fprintf('                            ----------------------------------\n')
+fprintf('\n');
+syms x y
+eb=0;
+ix=0;
+e=input(' - Indique el orden a utilizar               : ');
+d=input(' - Introduzca la ecuaci�n diferencial        : ');
+n=input(' - Introduzca la condici�n y(a)=b            : ');
+z=input (' - Se pidi� aproximaci�n de valor 1=(Si)     : ');
+if z==1
+	kz=input(' - Introduzca el valor a aproximar           : ');
+end
+
+fprintf('\n')
+
+for ea=1:1:e
+   ix=ix+1;
+   eb=eb+1;
+   fprintf(' - Funci�n: %1.0f\n\n',eb);
+   f1(ix)=input(' - Introduzca la funci�n de trabajo          : ');
+   fprintf('\n')
+end
+   
+ya=input(' - Introduzca la condici�n inicial           : ');
+a=input(' - Introduzca el valor de a                  : ');
+b=input(' - Introduzca el valor de b                  : ');
+h=input(' - Introduzca el tama�o de paso h            : ');
+fprintf('\n\n');
+
+fprintf(' - La soluci�n de la ecuaci�n diferencial es : \n\n\n');
+
+m = dsolve(d,n,'x');
+pretty(m);
+
+fprintf('\n\n\n');
+
+%Condiciones para el funcionamiento de los lazos FOR
+
+w(1)=ya;
+i=0;
+t(1)=a;
+v(1)=a;
+d=0;
+c=0;
+g=0;
+
+%Este for obtiene y guarda todos los valores de t
+%Tambi�n se utiliza para evaluar la ecuaci�n diferencial
+for p=a:h:b
+   d=1+d;
+   t(d)=p;
+   v(d)=subs(m,p);
+end
+
+%Este for se usa para contabilizar las iteraciones
+for s=c:1:(d-1)
+   g=1+g;
+   k(g)=(g-1);
+end
+
+k3=k(end);
+
+%Este for obtiene los valores aproximados de soluci�n
+
+for sp=a:h:(b-h)
+   af=sprintf(' w%1.0f = w%1.0f',i+1,i);
+   fprintf('\n');
+   ag=sprintf(' w%1.0f = %1.15f',i+1,w(i+1));
+   fprintf('\n');
+   i=1+i;
+   kc=0;
+   df=0;
+   qc=0;
+   sd=1;
+   o=0;
+   while sd <= e
+      kc=kc+1;
+      df=df+1;
+      o=o+1;
+      qc=qc+(((h^(df))/(factorial(df)))*(subs((f1(o)),{x,y},{t(i),w(i)})));
+      ad=sprintf(' + h^%1.0f/%1.0f f%1.0f (t%1.0f, w%1.0f)',df,factorial(df),df-1,i-1,i-1);
+      ah=sprintf(' + %10.15f^%1.0f/%1.0f f%1.0f (%10.15f, %10.15f)',h,df,factorial(df),df-1,t(i),w(i));
+      af=[af,ad];
+      ag=[ag,ah];
+      sd=sd+1;         
+   end
+   disp(af)
+   w(i+1)=w(i)+qc; 
+   disp(ag)
+   af=' ';
+   ag=' ';
+end
+
+fprintf('\n\n\n');
+
+fprintf('      i             ti                 wi                 y(t)               Error');  
+
+fprintf('\n\n\n');
+
+for k1=0:k3
+   k2=k1+1;
+   fprintf('\n');
+   fprintf('      %1.0f        %10.15f        %10.15f         %10.15f        %10.15f',k(k2),t(k2),w(k2),v(k2),abs((v(k2)-w(k2))));
+   fprintf('\n');                                      
+end
+
+fprintf('\n');
+
+if z == 1
+   
+fprintf('\n');
+
+bb=t;
+im=1;
+
+while bb(im)<kz
+   im=im+1;
+end
+
+xi=[t(im-1) t(im)];
+
+aa=t;
+af=1;
+ae=aa(af);
+ac=xi(1);
+
+%C�lculo de los valores de f(x)
+while ae < ac
+   af=af+1;
+   ae=aa(af);
+end
+
+af;
+ag=af+1;
+
+%Valores de f(x) 
+yl=[w(af) w(ag)];
+
+%C�lculo de los valores de la derivada
+ah=f1(1);
+ai=subs(ah,x,xi(1));
+aj=subs(ai,y,w(af));
+
+ak=subs(ah,x,xi(2));
+al=subs(ak,y,w(ag));
+
+am=[aj al];
+%Valores de la derivada
+
+yderiv=am;
+
+n=2*length(xi);
+D=zeros(n,n);
+b=1;
+
+format long
+
+for a=1:2:n
+    
+   z(a)=xi(b);
+   z(a+1)=xi(b);
+   y2(a)=yl(b);
+   y2(a+1)=yl(b);  
+   b=b+1;
+   
+end
+
+D(:,1)=y2';
+
+x=0;
+
+j=0;
+cont=1;
+while j<n-1
+   
+	x=x+1;
+   j=j+1;
+   for i=x:n-1
+      if (z(i+1)-z(i+1-j))==0
+      	D(i+1,j+1)=yderiv(cont);   
+         cont=cont+1;   
+      else
+         D(i+1,j+1)=(D(i+1,j)-D(i,j))/(z(i+1)-z(i+1-j));
+      end
+   end
+end
+
+D
+
+s=1;
+c=0;
+q=0;
+p=0;
+for i=2:n
+   for j=i
+      s=1;
+      for m=1:1
+         q=q+1;
+         for h=1:(i-1)          
+            s=s*(kz-z(i-q));
+            q=q-1;
+          end
+         p=p+1;
+         q=q+p;
+      end
+   end
+   c=c+(D(i,j)*s);
+end
+
+for i=1:1
+   for j=i
+      c=c+(D(i,j));
+   end
+end 
+fprintf('\n');
+fprintf(' - El resultado de y(%10.15f) es              : %10.15f\n',kz,c);
+fprintf('\n');
+end
+
+
+
+================Guia ===============
+
+---Crear archivo M
+function dy = g(t,y)
+dy=2*sin(2*t)-2*y-1;
+
+--Corrida
+[t,y]=ode23(@g,[a:h:b],alpha) %alpha es 'y(a)=alpha', la respuesta es el vector y
+
+---Para exacta FormulaDy
+%Formula Dy puede ser 'Dy=t^2+1' o de la manera original 'Dy - t^2 = 1' si uno da error, probar el otro
+exacta=dsolve(FormulaDy,'y(a)=alpha')
+Y=double(subs(exacta,t))
+
+---Si pide error
+error = norm(Y-y,inf)
+
+
+---Si piden
+Resuelva el siguiente sistema de ecuaciones diferenciales:
+3x’ + 5x + y’ – 2y = t
+3x’ + 6x + y’ + y = e^t
+
+encontrar x' con y' 
+x'=-17x/8+(e^t+t+1)/8
+y'=-17x/8+(8e^t-6t-3)/8
+
+quedando matrices
+X'=| -17/8   0   |*W+| (e^t+t+1)/8   |
+   |  0    -17/8 |   | (8e^t-6t-3)/8 |
+
+--archivo M
+function p=fsis7(t,w)
+p=zeros(size(w));
+p=[-17/8 0;0 -17/8]*w+[(1+t+exp(t))/8;(-3-6*t+8*exp(t))/8];
+
+--Para exacto
+[X Y]=dsolve('Dx+17/8*x=(1+t+exp(t))/8','Dy+17/8*y=(-3-6*t+8*exp(t))/8','x(0)=1','y(0)=0')
+
+exacta_x=double(subs(X,t));exacta_y=double(subs(Y,t));
+exacta =[exacta_x exacta_y]
+
+--Para error
+error_x=norm(exacta_x-xy(:,1));error_y=norm(exacta_y-xy(:,2));
+error=[error_x error_y]
+
+-----Si piden
+x’= -4x - 2y + cos(t) + 4sen(t)
+y’= 3x + y - 3sen(t)
+
+x(0) = 0 , y(0) = -1
+
+
+--Archivo M
+function P=prueba1(t,xy)
+P=zeros(2,1);
+P(1)=-4*xy(1)-2*xy(2)+cos(t)+4*sin(t);
+P(2)=3*xy(1)+xy(2)-3*sin(t);
+
+--Corrida
+[t xy]=ode45(@prueba1,[a,h,b],[0;-1])
+
+--Exacta
+[X Y]=dsolve('Dx=-4*xy(1)-2*xy(2)+cos(t)+4*sin(t)','Dy=3*xy(1)+xy(2)-3*sin(t)','x(0)=0','y(0)=-1');
+
+exacta=[double(subs(X,t)) double(subs(Y,t))]
+
+error=norm(Exacta(:,1)-xy(:,1),inf) norm(Exacta(:,2)-xy(:,2),inf)]
+
+%en comando t=[1:1/100:27/25];
+%[t yuv]=ode45(@g9c,t,[0;1;3])
+
+
+-----
+Resuelva y’’’(t) + 2y’’(t) - y’(t) - 2y(t) = exp(t) , sujeta a las condiciones iniciales:
+y(0) = 1 , y’(0) = 2 , y’’(0) = 0, en el intervalo 0 < t < 0.5 , considere h = 0.05
+
+--Archivo M
+function P=g9c(t,y)
+P=zeros(3,1);
+P(1)=y(2);
+P(2)=y(3);
+P(3)=2*y(1)+y(2)-2*y(3)+exp(t)
+
+--Analisis
+y(1)=y
+y(2)=y'
+y(3)=y''
+
+dejar y'''=2y+y'-2y'''+e^t
+
+--Corrida
+t=[1:1/100:27/25];
+%[t yuv]=ode45(@g9c,t,[0;1;3])
+
+--exacta
+exacta_y=dsolve('D3y+2*D2y-Dy*y=exp(t)','y(0)=1','Dy(0)=2','D2y(0)=0')
+
+Y=subs(exacta_y,t)
+
+--error
+error_y=norm(Y-yuv(:,1),inf)
